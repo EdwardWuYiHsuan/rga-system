@@ -1,0 +1,26 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                                        Application.index
+
+# RGA APIs
+POST     /api/login                              api.AuthenticationController.login
+POST     /api/logout                             api.AuthenticationController.logout
+
+POST     /api/createCustomer                     api.CustomerController.createCustomer
+PUT      /api/updateCustomer                     api.CustomerController.updateCustomer
+DELETE   /api/deleteCustomer                     api.CustomerController.deleteCustomer
+GET      /api/getCustomer                        api.CustomerController.getCustomer
+GET      /api/getAllCustomer                     api.CustomerController.getAllCustomer
+
+
+# Ignore favicon requests
+GET     /favicon.ico                            404
+
+# Map static resources from the /app/public folder to the /public path
+GET     /public/                                staticDir:public
+
+# Catch all
+*       /{controller}/{action}                  {controller}.{action}
