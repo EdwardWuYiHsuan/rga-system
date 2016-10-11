@@ -1,6 +1,6 @@
 package controllers.exception;
 
-import rga.APICode;
+import controllers.api.APICode;
 
 public class ApiException extends Exception {
 

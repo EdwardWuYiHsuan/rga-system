@@ -8,10 +8,11 @@ import controllers.exception.ApiException;
 import controllers.interceptor.APIInterceptor;
 import controllers.response.DefaultResponse;
 import controllers.response.Result;
+import dao.CustomerDao;
+import dao.DaoManager;
 import models.Customer;
 import play.mvc.With;
-import rga.APICode;
-import rga.utils.Util;
+import utils.Util;
 
 @With(APIInterceptor.class)
 public class CustomerController extends APIController {
@@ -24,18 +25,8 @@ public class CustomerController extends APIController {
 			String password = readApiParameter("password", true);
 			String phone = readApiParameter("phone", true);
 			
-			try {
-				Customer customer = new Customer();
-				customer.setName(name);
-				customer.setEmail(email);
-				customer.setPassword(password);
-				customer.setPhone(phone);
-				customer.save();
-			} catch (IllegalArgumentException e) {
-				throw new ApiException(APICode.InvalidParameter, e.getMessage());
-			} catch (DuplicateKey e) {
-				throw new ApiException(APICode.UniqueParameter, "email-already-exist");
-			}
+			CustomerDao customerDao = DaoManager.getDao(DaoManager.CUSTOMER);
+			customerDao.createCustomer(name, email, password, phone);
 			
 			renderJSON(new DefaultResponse());
 		} catch (Exception e) {
@@ -46,33 +37,14 @@ public class CustomerController extends APIController {
 	public static void updateCustomer() 
 	{
 		try {
-			String userId = readApiParameter("userId", true);
+			String customerId = readApiParameter("customerId", true);
 			String name = readApiParameter("name", false);
 			String email = readApiParameter("email", false);
 			String password = readApiParameter("password", false);
 			String phone = readApiParameter("phone", false);
 			
-			Customer customer = Customer.findById(userId);
-			if (null == customer) {
-				throw new ApiException(APICode.InvalidParameter, "invalid-userId");
-			}
-			
-			try {
-				if (!Util.isNullOrEmpty(name))
-					customer.setName(name);
-				if (!Util.isNullOrEmpty(email))
-					customer.setEmail(email);
-				if (!Util.isNullOrEmpty(password))
-					customer.setPassword(password);
-				if (!Util.isNullOrEmpty(phone));
-					customer.setPhone(phone);
-					
-				customer.save();
-			} catch (IllegalArgumentException e) {
-				throw new ApiException(APICode.InvalidParameter, e.getMessage());
-			} catch (DuplicateKey e) {
-				throw new ApiException(APICode.UniqueParameter, "email-already-exist");
-			}
+			CustomerDao customerDao = DaoManager.getDao(DaoManager.CUSTOMER);
+			customerDao.updateCustomer(customerId, name, email, password, phone);
 			
 			renderJSON(new DefaultResponse());
 		} catch (Exception e) {
@@ -83,14 +55,11 @@ public class CustomerController extends APIController {
 	public static void deleteCustomer() 
 	{
 		try {
-			String userId = readApiParameter("userId", true);
+			String customerId = readApiParameter("customerId", true);
 			
-			Customer customer = Customer.findById(userId);
-			if (null == customer) {
-				throw new ApiException(APICode.InvalidParameter, "invalid-userId");
-			}
+			CustomerDao customerDao = DaoManager.getDao(DaoManager.CUSTOMER);
+			customerDao.deleteCustomer(customerId);
 			
-			customer.delete();
 			renderJSON(new DefaultResponse());
 		} catch (Exception e) {
 			respondError(e);
@@ -100,12 +69,10 @@ public class CustomerController extends APIController {
 	public static void getCustomer() 
 	{
 		try {
-			String userId = readApiParameter("userId", true);
+			String customerId = readApiParameter("customerId", true);
 			
-			Customer customer = Customer.findById(userId);
-			if (null == customer) {
-				throw new ApiException(APICode.InvalidParameter, "invalid-userId");
-			}
+			CustomerDao customerDao = DaoManager.getDao(DaoManager.CUSTOMER);
+			Customer customer = customerDao.getCustomer(customerId);
 			
 			renderJSON(new DefaultResponse().setData(customer));
 		} catch (Exception e) {
@@ -116,7 +83,8 @@ public class CustomerController extends APIController {
 	public static void getAllCustomer() 
 	{
 		try {
-			List<Customer> customerList = Customer.findAll();
+			CustomerDao customerDao = DaoManager.getDao(DaoManager.CUSTOMER);
+			List<Customer> customerList = customerDao.getAllCustomers();
 			
 			renderJSON(new DefaultResponse().setData(customerList));
 		} catch (Exception e) {

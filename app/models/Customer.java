@@ -8,7 +8,7 @@ import com.google.code.morphia.annotations.Indexed;
 import com.google.gson.annotations.Expose;
 
 import play.modules.morphia.Model;
-import rga.utils.Util;
+import utils.Util;
 
 @Entity
 public class Customer extends Model {
@@ -57,6 +57,14 @@ public class Customer extends Model {
 		
 		String salt = this.creationTimestamp;
 		this.password = Util.sha256InBase64(password + salt);
+	}
+	
+	public boolean login(String loginPwd) 
+	{
+		String salt = this.creationTimestamp;
+		loginPwd = Util.sha256InBase64(loginPwd + salt);
+		
+		return this.getPassword().equals(loginPwd);
 	}
 	
 	public String getPhone() {

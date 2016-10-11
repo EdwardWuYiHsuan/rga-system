@@ -1,4 +1,4 @@
-package rga;
+package controllers.api;
 
 public enum APICode {
 

@@ -1,7 +1,7 @@
 package controllers.response;
 
+import controllers.api.APICode;
 import controllers.exception.ApiException;
-import rga.APICode;
 
 public class DefaultResponse {
 

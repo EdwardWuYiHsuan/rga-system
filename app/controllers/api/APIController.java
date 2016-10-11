@@ -6,7 +6,6 @@ import controllers.exception.ApiException;
 import controllers.response.DefaultResponse;
 import controllers.response.Result;
 import play.mvc.Controller;
-import rga.APICode;
 
 public class APIController extends Controller {
 
