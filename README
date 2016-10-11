@@ -1,12 +1,6 @@
 RGA Customer Module
 -------------------
 
-##Prerequisite
-* Oracle Jave 7 SDK
-* MongoDB 3.0 above
-* Play! framework 1.2.7 above 
-
-
 ##Scenario
 An insurance company needs a system to manage their customer data.  A software engineering team is working on the story below.
 
@@ -25,4 +19,19 @@ You are required to provide the functions of:
 6-1. Login - getting a login token. 
 6-2. Logout - destroying a login token.
 
+Except for point 6, those functions(end-points) should be secured, which need a credential to access.
 
+Please implement it in Java. Any frameworks are accepted.
+
+##Acceptance criteria
+1. RESTful APIs
+2. JSON request and response
+3. Evidence of a BDD/TDD approach
+4. Clean, maintainable code adhering to SOLID principles
+
+##What we look for
+We are especially interested in how you structure your code. It should be fully testable and easy to be understood, extended and modified by others, and comply with the best object-oriented practices.
+
+**Please push your source code to GitHub, Bitbucket or other source control platforms, or just zip it and send it back to me.**
+
+Good luck!
