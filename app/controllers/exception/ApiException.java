@@ -6,7 +6,7 @@ public class ApiException extends Exception {
 
 	private APICode code;
 	
-	public ApiException(APICode Code) {
+	public ApiException(APICode code) {
 		this.code = code;
 	}
 	
